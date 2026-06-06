@@ -25,9 +25,15 @@ const StyledSidePanelWrapper = styled.div<{
   isOpen: boolean;
   isResizing: boolean;
 }>`
+  box-sizing: border-box;
   flex-shrink: 0;
   min-width: 0;
   overflow: hidden;
+  // Self-contained margin so the panel floats correctly as a top-level sibling
+  // of the page content (the left gap is the ResizablePanelGap). It collapses
+  // together with the width when the panel is closed.
+  padding: ${themeCssVariables.spacing[2]} ${themeCssVariables.spacing[2]}
+    ${themeCssVariables.spacing[2]} 0;
   transition: ${({ isResizing }) =>
     isResizing
       ? 'none'
