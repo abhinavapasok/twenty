@@ -23,9 +23,10 @@ const StyledContainer = styled.div`
   }
 `;
 
+// No padding here: the skeleton panel owns the drawer's own padding so its
+// total width matches the real NavigationDrawer exactly.
 const StyledLeftPanelWrapper = styled.div`
   flex-shrink: 0;
-  padding: 12px 0 12px 8px;
 `;
 
 export const UserOrMetadataLoader = () => {
