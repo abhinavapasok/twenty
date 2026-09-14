@@ -182,10 +182,19 @@ export class WorkflowValidationWorkspaceService {
         return step;
       }
 
-      return {
-        ...step,
-        settings: { ...step.settings, outputSchema: computedSchema },
+      // Widen through Record<string, unknown> before spreading: the
+      // WorkflowAction union is now too large for TS to distribute the
+      // spread structurally, producing "union type too complex to
+      // represent" (TS2590) if spread directly on the generic TStep.
+      const enrichedStep = {
+        ...(step as unknown as Record<string, unknown>),
+        settings: {
+          ...(step.settings as unknown as Record<string, unknown>),
+          outputSchema: computedSchema,
+        },
       };
+
+      return enrichedStep as unknown as TStep;
     } catch {
       // Output schema enrichment is best-effort: if it cannot be computed,
       // validation still runs against the step's existing settings rather
